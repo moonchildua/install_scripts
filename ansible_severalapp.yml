@@ -1,0 +1,25 @@
+# Setup and configure ruby things for redidit app
+- name: "Reddit App: Configure app environment"
+  hosts: centos
+  remote_user: root
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: no
+
+  tasks:
+  - name: "Install ruby and rubygems and required packages"
+    yum:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+        - { name:  git}
+        - { name: ruby}
+        - { name: ruby-dev}
+        - { name: build-essential}
+#        - { name: mongodb-server}
+  - name: Install Ruby bundler
+    gem:
+      name: bundler
+      state: present
+      user_install: no
